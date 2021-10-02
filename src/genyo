@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+set -e
+
+cd ~/LeoFalco/genyo
+
+. ~/.nvm/nvm.sh
+
+nvm install
+
+node -v
+
+date=$(date '+%Y-%m-%d_%H_%M_%S')
+
+npm run invoke >> /home/leofalco/LeoFalco/common-sh-scripts/logs/log-$date.log  2>&1

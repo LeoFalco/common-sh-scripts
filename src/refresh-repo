@@ -1,10 +1,12 @@
 #!/usr/bin/bash
 
+set -e
+
 # save current branch for later use
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # update refs for new branches and tags
-git fetch --all
+git fetch --all -p --tags
 
 # remove refs for deleted branches and tags on origin
 git remote prune origin
@@ -19,6 +21,20 @@ fi
 # switch to master branch
 git checkout master
 git pull origin master
+
+branches_to_rebase=$(git branch | grep -v 'master$')
+
+if [ ! -z "$branches_to_rebase" ]
+then
+    for branch in $branches_to_rebase
+    do
+        git checkout $branch
+        git rebase master
+        git push origin $branch -f --no-verify
+    done
+fi
+
+
 
 # list of branches already merged into master
 branches_to_delete=$(git branch --merged | grep -v 'master$' | xargs)
