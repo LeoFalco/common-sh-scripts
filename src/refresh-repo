@@ -18,6 +18,7 @@ fi
 
 # switch to master branch
 git checkout master
+git pull origin master
 
 # list of branches already merged into master
 branches_to_delete=$(git branch --merged | grep -v 'master$' | xargs)
