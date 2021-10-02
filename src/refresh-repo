@@ -1,0 +1,50 @@
+#!/usr/bin/bash
+
+# save current branch for later use
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# update refs for new branches and tags
+git fetch --all
+
+# remove refs for deleted branches and tags on origin
+git remote prune origin
+
+# check if repo ir dirry
+if [ -n "$(git status --porcelain)" ]; then
+    # if dirty, stop script
+    echo "Repo is dirty, please commit or stash changes before running this script"
+    exit 1
+fi
+
+# switch to master branch
+git checkout master
+
+# list of branches already merged into master
+branches_to_delete=$(git branch --merged | grep -v 'master$' | xargs)
+
+# if list is not empty
+if [ ! -z "$branches_to_delete" ]
+then
+    # delete the already merged branches
+    git branch -d $branches_to_delete
+fi
+
+# list of existing branches
+all_remaining_branches=$(git branch | grep -v 'master$' | xargs)
+
+# check if all remaining branches contains current branch
+if [ ! -z "$all_remaining_branches" ]
+then
+    for branch in $all_remaining_branches
+    do
+        # if match
+        if [ "$branch" = "$current_branch" ]
+        then
+            # switch back to current branch
+            git checkout $current_branch
+            break
+        fi
+    done
+fi
+
+echo done
