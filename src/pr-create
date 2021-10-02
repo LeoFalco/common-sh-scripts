@@ -1,0 +1,30 @@
+set -e
+
+fieldnews_path=$(pwd)/.github/workflows/fieldnews.yml
+pr_template_path=$(pwd)/.github/pull_request_template.md
+
+## estract field allowed_prefix from fieldnews file
+prefix=$(cat $fieldnews_path | grep allowed_prefix | cut -d ':' -f 2 | sed "s/'//g" | sed 's/^ *//g' | sed 's/ *$//g')
+
+# git last commit message
+commit_message=$(git log --pretty=%B -n 1 | cut -d ':' -f 2 | sed 's/^ *//g' | sed 's/ *$//g')
+
+title="$prefix $commit_message"
+
+echo title: $title
+
+gh pr create -a LeoFalco --title "$title" --body-file "$pr_template_path" --reviewer \
+willaug,\
+anselmoj,\
+bryant-anjos-field,\
+caiorsantanna,\
+Giovani-f,\
+godinhojoao,\
+IgorMoraes15,\
+lfreneda,\
+ottonielmatheus,\
+thalescrosa,\
+victorreinor,\
+ThayDias
+
+gh pr view -w

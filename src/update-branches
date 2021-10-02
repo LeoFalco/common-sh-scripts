@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+set -e
+
+# switch to master branch
+git checkout master
+git pull origin master
