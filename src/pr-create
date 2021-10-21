@@ -1,7 +1,20 @@
 set -e
 
-fieldnews_path=$(pwd)/.github/workflows/fieldnews.yml
-pr_template_path=$(pwd)/.github/pull_request_template.md
+# get current brach name
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+git push -uf origin $branch --no-verify
+
+repo_path=$(git rev-parse --show-toplevel)
+
+echo "Repo path: $repo_path"
+
+
+fieldnews_path=$repo_path/.github/workflows/fieldnews.yml
+echo "Fieldnews path: $fieldnews_path"
+
+
+pr_template_path=$repo_path/.github/pull_request_template.md
 
 ## estract field allowed_prefix from fieldnews file
 prefix=$(cat $fieldnews_path | grep allowed_prefix | cut -d ':' -f 2 | sed "s/'//g" | sed 's/^ *//g' | sed 's/ *$//g')
@@ -13,7 +26,7 @@ title="$prefix $commit_message"
 
 echo title: $title
 
-gh pr create -a LeoFalco --title "$title" --body-file "$pr_template_path" --reviewer \
+gh pr create -a @me --title "$title" --body-file "$pr_template_path" --reviewer \
 willaug,\
 anselmoj,\
 bryant-anjos-field,\
