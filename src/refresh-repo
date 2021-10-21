@@ -30,20 +30,29 @@ then
     do
         git checkout $branch
         git rebase master
-        git push origin $branch -f --no-verify
+
+        # check if branch is ahead of master
+        if [ "$(git rev-list $branch...master --count)" -gt 0 ]
+        then
+            git push origin $branch -f --no-verify
+        fi
     done
 fi
 
-
+# switch to master branch
+git checkout master
 
 # list of branches already merged into master
 branches_to_delete=$(git branch --merged | grep -v 'master$' | xargs)
+
+echo "Deleting branches:" $branches_to_delete
 
 # if list is not empty
 if [ ! -z "$branches_to_delete" ]
 then
     # delete the already merged branches
-    git branch -d $branches_to_delete
+    git branch -D $branches_to_delete
+    git push origin --delete $branches_to_delete -f --no-verify 2> /dev/null
 fi
 
 # list of existing branches
