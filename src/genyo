@@ -2,14 +2,24 @@
 
 set -e
 
-cd ~/LeoFalco/genyo
-
 . ~/.nvm/nvm.sh
 
-nvm install
+cd ~/LeoFalco/genyo
 
-node -v
+nvm install
+nvm use
+
+git pull
+npm install
 
 date=$(date '+%Y-%m-%d_%H_%M_%S')
 
-npm run invoke >> /home/leofalco/LeoFalco/common-sh-scripts/logs/log-$date.log  2>&1
+logs_dir=/home/leofalco/LeoFalco/common-sh-scripts/logs
+
+# if log dir doesn't exist, create it
+if [ ! -d "$logs_dir" ]
+then
+  mkdir -p $logs_dir
+fi
+
+npm run invoke | tee $logs_dir/$date.log
