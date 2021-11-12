@@ -1,4 +1,3 @@
-set -e
 
 # get current brach name
 branch=$(git rev-parse --abbrev-ref HEAD)
@@ -10,21 +9,32 @@ repo_path=$(git rev-parse --show-toplevel)
 echo "Repo path: $repo_path"
 
 
-fieldnews_path=$repo_path/.github/workflows/fieldnews.yml
-echo "Fieldnews path: $fieldnews_path"
+workflow_fieldnews_path=$repo_path/.github/workflows/fieldnews.yml
+echo "Workflow fieldnews path: $workflow_fieldnews_path"
 
 
 pr_template_path=$repo_path/.github/pull_request_template.md
 
+echo "PR template path: $pr_template_path"
+
 ## estract field allowed_prefix from fieldnews file
-prefix=$(cat $fieldnews_path | grep allowed_prefix | cut -d ':' -f 2 | sed "s/'//g" | sed 's/^ *//g' | sed 's/ *$//g')
+prefix=$(cat $workflow_fieldnews_path | grep allowed_prefix | cut -d ':' -f 2 | sed "s/'//g" | xargs)
+
+echo "Prefix: $prefix"
 
 # git last commit message
-commit_message=$(git log --pretty=%B -n 1 | cut -d ':' -f 2 | sed 's/^ *//g' | sed 's/ *$//g')
+commit_message=$(git log --pretty=%B -n 1 | cut -d ':' -f 2 | xargs)
+echo "Commit message: $commit_message"
 
-title="$prefix $commit_message"
+title=$(echo "$prefix $commit_message" | xargs)
 
-echo title: $title
+echo "Title: $title"
+
+# if body file not exists
+if [ ! -f $pr_template_path ]; then
+  pr_template_path=$(dirname "$0")/../assets/empty_pull_request_template.md
+fi
+
 
 gh pr create -a @me --title "$title" --body-file "$pr_template_path" --reviewer \
 willaug,\
