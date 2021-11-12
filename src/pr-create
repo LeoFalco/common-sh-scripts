@@ -30,6 +30,12 @@ title=$(echo "$prefix $commit_message" | xargs)
 
 echo "Title: $title"
 
+# if body file not exists
+if [ ! -f $pr_template_path ]; then
+  pr_template_path=$(dirname "$0")/../assets/empty_pull_request_template.md
+fi
+
+
 gh pr create -a @me --title "$title" --body-file "$pr_template_path" --reviewer \
 willaug,\
 anselmoj,\
