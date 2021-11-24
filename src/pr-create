@@ -39,7 +39,6 @@ fi
 gh pr create -a @me --title "$title" --body-file "$pr_template_path" --reviewer \
 willaug,\
 anselmoj,\
-bryant-anjos-field,\
 caiorsantanna,\
 Giovani-f,\
 godinhojoao,\
