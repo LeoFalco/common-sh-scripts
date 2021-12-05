@@ -1,0 +1,1 @@
+npx concurrently "cd ~/FieldControl/eyeofsauron && npm run start-dev"  "cd ~/FieldControl/mordor && npm run start-dev" "cd ~/FieldControl/blackgate/api && npm run start-dev"
