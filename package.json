@@ -1,0 +1,23 @@
+{
+  "name": "common-sh-scripts",
+  "version": "1.0.0",
+  "description": "## Install instructions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeoFalco/common-sh-scripts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeoFalco/common-sh-scripts/issues"
+  },
+  "homepage": "https://github.com/LeoFalco/common-sh-scripts#readme",
+  "dependencies": {
+    "concurrently": "^6.4.0"
+  }
+}
