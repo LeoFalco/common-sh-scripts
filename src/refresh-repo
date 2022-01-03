@@ -6,7 +6,7 @@ set -e
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # update refs for new branches and tags
-git fetch --all -p --tags
+git fetch --tags --force
 
 # remove refs for deleted branches and tags on origin
 git remote prune origin
