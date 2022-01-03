@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "## Install instructions",
   "main": "index.js",
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=6"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npx only-allow pnpm"
   },
   "repository": {
     "type": "git",
