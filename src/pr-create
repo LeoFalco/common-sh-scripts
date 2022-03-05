@@ -1,52 +1,85 @@
+#!/usr/bin/env zx
 
-# get current brach name
-branch=$(git rev-parse --abbrev-ref HEAD)
-
-git push -uf origin $branch --no-verify
-
-repo_path=$(git rev-parse --show-toplevel)
-
-echo "Repo path: $repo_path"
+import 'zx/globals'
+import YAML from 'yaml'
 
 
-workflow_fieldnews_path=$repo_path/.github/workflows/fieldnews.yml
-echo "Workflow fieldnews path: $workflow_fieldnews_path"
+const currentBranch = await getCurrentBranch()
+
+await forcePush(currentBranch)
+
+const repoFullPath = await getRepoFullPath()
+
+const prefix = await getPrefix(repoFullPath)
+
+const commitMessage = await getCommitMessage()
+
+const prTitle = `${prefix} ${commitMessage}`.trim()
+
+const prTemplatePath = await getPrTemplatePath(repoFullPath)
+
+await createPullRequest({ prTitle, prTemplatePath })
 
 
-pr_template_path=$repo_path/.github/pull_request_template.md
+async function createPullRequest({ prTitle, prTemplatePath }) {
+  const bodyFileParam = fs.existsSync(prTemplatePath)
+  ? `--body-file ${prTemplatePath}`
+  : ''
 
-echo "PR template path: $pr_template_path"
+  const reviewers = [
+    'leoFalco',
+    // 'willaug',
+    // 'anselmoj',
+    // 'caiorsantanna',
+    // 'Giovani-f',
+    // 'godinhojoao',
+    // 'IgorMoraes15',
+    // 'lfreneda',
+    // 'ottonielmatheus',
+    // 'thalescrosa',
+    // 'victorreinor',
+    // 'ThayDias'
+  ]
 
-## estract field allowed_prefix from fieldnews file
-prefix=$(cat $workflow_fieldnews_path | grep allowed_prefix | cut -d ':' -f 2 | sed "s/'//g" | xargs)
+  await $`gh pr create -a @me --title ${prTitle} ${bodyFileParam} --reviewer ${reviewers}`
+  await $`gh pr view -w`
+}
 
-echo "Prefix: $prefix"
+async function getCommitMessage() {
+  return (await $`git log -1 --pretty=%B`).stdout.trim().split('\n')[0].replace(/^.*:/, '')
+}
 
-# git last commit message
-commit_message=$(git log --pretty=%B -n 1 | cut -d ':' -f 2 | xargs)
-echo "Commit message: $commit_message"
+async function getPrTemplatePath(repoFullPath) {
+  return `${repoFullPath}/.github/pull_request_template.md`
+}
 
-title=$(echo "$prefix $commit_message" | xargs)
+async function getRepoFullPath() {
+  return (await $`git rev-parse --show-toplevel`).stdout.trim()
+}
 
-echo "Title: $title"
+async function getCurrentBranch(){
+  return  (await $`git rev-parse --abbrev-ref HEAD`).stdout.trim()
+}
 
-# if body file not exists
-if [ ! -f $pr_template_path ]; then
-  pr_template_path=$(dirname "$0")/../assets/empty_pull_request_template.md
-fi
+async function forcePush(branch) {
+  await $`git push -uf origin ${branch} --no-verify`
+}
 
 
-gh pr create -a @me --title "$title" --body-file "$pr_template_path" --reviewer \
-willaug,\
-anselmoj,\
-caiorsantanna,\
-Giovani-f,\
-godinhojoao,\
-IgorMoraes15,\
-lfreneda,\
-ottonielmatheus,\
-thalescrosa,\
-victorreinor,\
-ThayDias
+async function getPrefix(repoFullPath) {
+  const fieldnewsWorkflowFullPath = `${repoFullPath}/.github/workflows/fieldnews.yml`
 
-gh pr view -w
+  if(!fs.existsSync(fieldnewsWorkflowFullPath)){
+    return ''
+  }
+
+  const fieldnewsWorkflowFileContent = fs.readFileSync(fieldnewsWorkflowFullPath, 'utf8')
+  const workflow  = YAML.parse(fieldnewsWorkflowFileContent)
+
+  try {
+    return workflow['jobs']['title-validation']['steps'][0]['with']['allowed_prefixes']
+  }catch(e){
+    console.log('no prefix fallback to empty string')
+    return ''
+  }
+}

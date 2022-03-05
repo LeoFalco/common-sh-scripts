@@ -23,6 +23,10 @@
   },
   "homepage": "https://github.com/LeoFalco/common-sh-scripts#readme",
   "dependencies": {
-    "concurrently": "^7.0.0"
+    "concurrently": "^7.0.0",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {
+    "zx": "^5.2.0"
   }
 }
