@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+set -e
+
+git push origin HEAD:preview -f --no-verify

@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+set -e
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+git push -u origin $current_branch -f
