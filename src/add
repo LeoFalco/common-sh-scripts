@@ -2,4 +2,8 @@
 
 set -e
 
+echo "Adding all changes"
+
 git add -A
+
+echo "Done"
