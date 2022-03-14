@@ -1,0 +1,2 @@
+scp -i developer.pem 'ubuntu@ec2-54-233-122-86.sa-east-1.compute.amazonaws.com:/home/ubuntu/locations-service-providers.csv' ./
+

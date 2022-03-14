@@ -2,4 +2,5 @@
 
 set -e
 
+echo "git push origin HEAD:preview -f --no-verify"
 git push origin HEAD:preview -f --no-verify

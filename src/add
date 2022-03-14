@@ -4,6 +4,7 @@ set -e
 
 echo "Adding all changes"
 
+echo "git add -A"
 git add -A
 
 echo "Done"
