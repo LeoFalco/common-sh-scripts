@@ -1,52 +1,13 @@
+#!/usr/bin/bash
 
-# get current brach name
-branch=$(git rev-parse --abbrev-ref HEAD)
+set -e
 
-git push -uf origin $branch --no-verify
+. ~/.nvm/nvm.sh
 
-repo_path=$(git rev-parse --show-toplevel)
+nvm install v16.14.1
 
-echo "Repo path: $repo_path"
+nvm use v16.14.1
 
+zx $(dirname "$0")/pr-create.js
 
-workflow_fieldnews_path=$repo_path/.github/workflows/fieldnews.yml
-echo "Workflow fieldnews path: $workflow_fieldnews_path"
-
-
-pr_template_path=$repo_path/.github/pull_request_template.md
-
-echo "PR template path: $pr_template_path"
-
-## estract field allowed_prefix from fieldnews file
-prefix=$(cat $workflow_fieldnews_path | grep allowed_prefix | cut -d ':' -f 2 | sed "s/'//g" | xargs)
-
-echo "Prefix: $prefix"
-
-# git last commit message
-commit_message=$(git log --pretty=%B -n 1 | cut -d ':' -f 2 | xargs)
-echo "Commit message: $commit_message"
-
-title=$(echo "$prefix $commit_message" | xargs)
-
-echo "Title: $title"
-
-# if body file not exists
-if [ ! -f $pr_template_path ]; then
-  pr_template_path=$(dirname "$0")/../assets/empty_pull_request_template.md
-fi
-
-
-gh pr create -a @me --title "$title" --body-file "$pr_template_path" --reviewer \
-willaug,\
-anselmoj,\
-caiorsantanna,\
-Giovani-f,\
-godinhojoao,\
-IgorMoraes15,\
-lfreneda,\
-ottonielmatheus,\
-thalescrosa,\
-victorreinor,\
-ThayDias
-
-gh pr view -w
+nvm use
