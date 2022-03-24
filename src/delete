@@ -2,14 +2,18 @@ echo "Switching to master"
 git checkout master
 
 echo
+echo "Deleting local branch"
+echo "git branch -D $1 | true"
+git branch -D $1 | true
+
+echo
 echo "Deleting remote branch"
 echo "git push origin --delete $1 --no-verify | true"
 git push origin --delete $1 --no-verify | true
 
-echo
-echo "Deleting local branch"
-echo "git branch -D $1 | true"
-git branch -D $1 | true
+echo "Cleaning references"
+echo "git remote prune origin"
+git remote prune origin
 
 echo
 echo "Done"
