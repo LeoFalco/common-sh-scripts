@@ -31,9 +31,15 @@ if(issueNumber) {
   prTemplate = `- closes #${issueNumber}\n\n` + prTemplate
 }
 
-await $`gh pr create --assignee @me --draft --title ${title} --body ${prTemplate || 'empty'} --reviewer "ThayDias,willaug,caiorsantanna,IgorMoraes15,anselmoj,gilmarferrini,Giovani-f,godinhojoao,guilhermevinifield,helderlim,ottonielmatheus,satakedev,thalescrosa,victorreinor,lfreneda"`
+prTemplate = prTemplate || 'empty'
 
-await $`gh pr view -w`
+const reviewers = await $`gh api orgs/FieldControl/members --jq '.[].login' | xargs`.then(out => out.stdout.trim().replace(/\s+/g, ','))
+
+await $`gh pr create --assignee @me --draft --title ${title} --body ${prTemplate} --reviewer ${reviewers}`
+
+const url = await $`gh pr view --json url --jq .url`.then(out => out.stdout.trim())
+
+$`google-chrome ${url}`
 
 function issueNumberFromBranch(branch) {
   const match = branch.match(/^(\d+)/)
