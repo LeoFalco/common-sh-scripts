@@ -6,7 +6,6 @@ const existingPrUrl = await $`gh pr view --json url --jq .url`.then(parseOutput)
 
 if(existingPrUrl){
   await open(existingPrUrl)
-
   process.exit(0)
 }
 
