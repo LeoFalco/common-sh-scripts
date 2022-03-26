@@ -2,14 +2,22 @@
 
 set -e
 
-# save current branch for later use
-current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # update refs for new branches and tags
 git fetch --tags --force
 
 # remove refs for deleted branches and tags on origin
 git remote prune origin
+
+# save current branch for later use
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# current branch is not master
+if [ "$current_branch" != "master" ]; then
+  git branch -D master
+  git checkout master
+fi
+
 
 # check if repo ir dirry
 if [ -n "$(git status --porcelain)" ]; then

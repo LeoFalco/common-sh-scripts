@@ -6,7 +6,11 @@ set -e
 
 nvm install v16.14.1
 
-nvm use v16.14.1
+node_version="$(node -v)"
+
+if [ "$node_version" != "v16.14.1" ]; then
+  nvm use v16.14.1
+fi
 
 zx $(dirname "$0")/pr-create.js
 
