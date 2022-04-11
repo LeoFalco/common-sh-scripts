@@ -14,7 +14,7 @@ current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # current branch is not master
 if [ "$current_branch" != "master" ]; then
-  git branch -D master
+  git branch -D master | true
   git checkout master
 fi
 
