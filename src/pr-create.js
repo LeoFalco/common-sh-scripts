@@ -1,9 +1,9 @@
 #!/usr/bin/env zx
 
-import 'zx/globals'
+import 'zx/globals';
 import chalk from 'chalk';
 import lodash from 'lodash';
-
+import capitalize from 'capitalize';
 const { yellow, green } = chalk;
 const { chain } = lodash
 
@@ -29,7 +29,7 @@ const prefix = fs.existsSync(workflowFieldnewsPath)
   : ''
 
 
-const title = `${prefix} ${commitMessage}`.trim()
+const title = `${prefix} ${capitalize(commitMessage)}`.trim()
 
 const issueNumber = issueNumberFromBranch(branch)
 

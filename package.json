@@ -9,8 +9,7 @@
     "pnpm": ">=6"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall": "npx only-allow npm"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -24,6 +23,7 @@
   },
   "homepage": "https://github.com/LeoFalco/common-sh-scripts#readme",
   "dependencies": {
-    "concurrently": "^7.0.0"
+    "capitalize": "2.0.4",
+    "concurrently": "7.0.0"
   }
 }
