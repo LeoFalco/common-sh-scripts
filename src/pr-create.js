@@ -71,7 +71,10 @@ const reviewers = [
   'godinhojoao',
   'lfreneda',
   'thalescrosa',
-  'victorreinor'
+  'victorreinor',
+  'LeoFalco',
+  'ThayDias',
+  'willaug'
 ]
 
 console.log('reviewers', reviewers)
