@@ -2,7 +2,6 @@
 
 set -e
 
-
 # update refs for new branches and tags
 git fetch --tags --force
 
@@ -18,12 +17,11 @@ if [ "$current_branch" != "master" ]; then
   git checkout master
 fi
 
-
-# check if repo ir dirry
+# check if repo ir dirty
 if [ -n "$(git status --porcelain)" ]; then
-    # if dirty, stop script
-    echo "Repo is dirty, please commit or stash changes before running this script"
-    exit 1
+  # if dirty, stop script
+  echo "Repo is dirty, please commit or stash changes before running this script"
+  exit 1
 fi
 
 # switch to master branch
@@ -50,7 +48,6 @@ git rebase master
 #     done
 # fi
 
-
 # switch to master branch
 git checkout master
 
@@ -73,16 +70,16 @@ all_remaining_branches=$(git branch | grep -v 'master$' | xargs)
 # check if all remaining branches contains current branch
 if [ ! -z "$all_remaining_branches" ]
 then
-    for branch in $all_remaining_branches
-    do
-        # if match
-        if [ "$branch" = "$current_branch" ]
-        then
-            # switch back to current branch
-            git checkout $current_branch
-            break
-        fi
-    done
+  for branch in $all_remaining_branches
+  do
+    # if match
+    if [ "$branch" = "$current_branch" ]
+    then
+      # switch back to current branch
+      git checkout $current_branch
+      break
+    fi
+  done
 fi
 
 echo done
