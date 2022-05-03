@@ -47,8 +47,8 @@ console.log()
 
 
 const reviewers = [
-  'FieldControl/sammathnaur',
-  'FieldControl/valar',
+  'FieldControl/Enterprise',
+  'FieldControl/Fieldevelopers',
   'Giovani-f',
   'IgorMoraes15',
   'LeoFalco',
@@ -59,7 +59,8 @@ const reviewers = [
   'victorreinor',
   'LeoFalco',
   'ThayDias',
-  'willaug'
+  'willaug',
+  'satakedev'
 ]
 
 console.log('reviewers', reviewers)
