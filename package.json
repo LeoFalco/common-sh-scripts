@@ -24,7 +24,7 @@
   "homepage": "https://github.com/LeoFalco/common-sh-scripts#readme",
   "dependencies": {
     "capitalize": "2.0.4",
-    "concurrently": "7.2.0",
+    "concurrently": "7.2.1",
     "zx": "6.0.7"
   }
 }
