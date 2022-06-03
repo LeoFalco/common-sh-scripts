@@ -6,14 +6,24 @@ echo "Switching to master"
 git checkout master
 
 echo
+echo "Deleting local tag"
+echo "git tag -d $1 | true"
+git tag -d $1 | true
+
+echo
 echo "Deleting local branch"
 echo "git branch -D $1 | true"
 git branch -D $1 | true
 
 echo
+echo "Deleting remote tag"
+echo "git push origin :refs/tags/$1 --no-verify"
+git push origin :refs/tags/$1 --no-verify
+
+echo
 echo "Deleting remote branch"
-echo "git push origin --delete $1 --no-verify | true"
-git push origin --delete $1 --no-verify | true
+echo "git push origin :refs/heads/$1 --no-verify"
+git push origin :refs/heads/$1 --no-verify
 
 echo "Cleaning references"
 echo "git remote prune origin"
