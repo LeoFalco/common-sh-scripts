@@ -24,9 +24,11 @@ let prTemplate = fs.existsSync(prTemplatePath)
 const commitMessage= await $`git log --pretty=%B -n 1 | cut -d ':' -f 2 | xargs`.then(parseOutput)
 
 const workflowFieldnewsPath = repoPath + '/.github/workflows/fieldnews.yml'
-const prefix = fs.existsSync(workflowFieldnewsPath)
+let prefix = fs.existsSync(workflowFieldnewsPath)
   ?  await $`cat ${workflowFieldnewsPath} | grep allowed_prefix | cut -d ':' -f 2 | sed "s/'//g" | xargs`.then(parseOutput)
   : ''
+
+prefix = prefix.split(',')[0].trim()
 
 
 const title = `${prefix} ${capitalize(commitMessage)}`.trim()

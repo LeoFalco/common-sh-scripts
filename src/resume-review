@@ -1,0 +1,20 @@
+#!/usr/bin/bash
+
+set -e
+
+. ~/.nvm/nvm.sh
+
+cd ~/LeoFalco/email-semanal/bin
+
+nvm install && nvm use
+
+date=$(date '+%Y-%m-%d_%H_%M_%S')
+logs_dir=/home/leofalco/LeoFalco/email-semanal
+
+# if log dir doesn't exist, create it
+if [ ! -d "$logs_dir" ]
+then
+  mkdir -p $logs_dir
+fi
+
+node resume-reviews.js | tee $logs_dir/$date.log
