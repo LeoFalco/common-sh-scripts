@@ -4,13 +4,9 @@ set -e
 
 . ~/.nvm/nvm.sh
 
-nvm install v16.14.1
+nvm install v16
 
-node_version="$(node -v)"
-
-if [ "$node_version" != "v16.14.1" ]; then
-  nvm use v16.14.1
-fi
+npm install zx@latest --location=global
 
 zx $(dirname "$0")/pr-create.js
 
