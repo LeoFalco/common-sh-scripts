@@ -25,6 +25,6 @@
   "dependencies": {
     "capitalize": "2.0.4",
     "concurrently": "7.3.0",
-    "zx": "7.0.7"
+    "zx": "7.0.8"
   }
 }
