@@ -57,7 +57,6 @@ const reviewers = [
   'caiorsantanna',
   'godinhojoao',
   'lfreneda',
-  'thalescrosa',
   'victorreinor',
   'LeoFalco',
   'ThayDias',

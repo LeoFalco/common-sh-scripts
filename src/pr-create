@@ -6,7 +6,7 @@ set -e
 
 nvm install v16
 
-#npm install zx@latest --location=global
+# npm install zx@latest --location=global
 
 zx $(dirname "$0")/pr-create.js
 
