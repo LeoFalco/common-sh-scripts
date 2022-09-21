@@ -1,13 +1,14 @@
-#!/usr/bin/bash
+#!/usr/bin/zsh
 
 set -e
 
 . ~/.nvm/nvm.sh
-
 nvm install v16
+nvm use
 
-# npm install zx@latest --location=global
+zx_location=$(where zx || true)
+if [ "$zx_location" = "zx not found" ]; then
+  npm install zx@latest --location=global
+fi
 
 zx $(dirname "$0")/pr-create.js
-
-nvm use
