@@ -1,11 +1,7 @@
 #!/usr/bin/env zx
 
-import 'zx/globals';
-import chalk from 'chalk';
-import lodash from 'lodash';
 import { $ } from 'zx';
-const { yellow, green } = chalk;
-const { chain } = lodash
+import 'zx/globals';
 
 console.log()
 const branch = await $`git rev-parse --abbrev-ref HEAD`.then(parseOutput)
@@ -43,12 +39,6 @@ if (!prTemplate) {
   prTemplate = `empty`
 }
 
-const allReviewersAsString = await $`gh api orgs/FieldControl/members --jq '.[].login' | xargs`.then(out => out.stdout.trim().replace(/\s+/g, ','))
-
-console.log()
-
-
-
 const reviewers = [
   'FieldControl/Enterprise',
   'FieldControl/Fieldevelopers',
@@ -74,12 +64,10 @@ const reviewers = [
   'willaug',
 ]
 
-console.log('reviewers', reviewers)
-
-await (quiet($`gh pr create --assignee @me --title ${title} --body ${prTemplate} --reviewer ${reviewers.join(',')}`))
+await $`gh pr create --assignee @me --title ${title} --body ${prTemplate} --reviewer ${reviewers.join(',')}`.quiet()
 
 const url = await $`gh pr view --json url --jq .url`.then(parseOutput)
-console.log()
+
 console.log(`pr opened ${url}`)
 
 function issueNumberFromBranch (branch) {

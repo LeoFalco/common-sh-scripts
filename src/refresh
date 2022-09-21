@@ -1,0 +1,9 @@
+current_branch=$(git rev-parse --abbrev-ref HEAD | xargs)
+
+git checkout master
+
+git branch -D $current_branch
+
+git fetch
+
+git checkout $current_branch

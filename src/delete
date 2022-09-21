@@ -5,20 +5,20 @@ set -e
 echo "Switching to master"
 git checkout master
 
-# echo
-# echo "Deleting local tag"
-# echo "git tag -d $1 | true"
-# git tag -d $1 | true
+echo
+echo "Deleting local tag"
+echo "git tag -d $1 | true"
+git tag -d $1 | true
 
 echo
 echo "Deleting local branch"
 echo "git branch -D $1 | true"
 git branch -D $1 | true
 
-# echo
-# echo "Deleting remote tag"
-# echo "git push origin :refs/tags/$1 --no-verify"
-# git push origin :refs/tags/$1 --no-verify
+echo
+echo "Deleting remote tag"
+echo "git push origin :refs/tags/$1 --no-verify"
+git push origin :refs/tags/$1 --no-verify
 
 echo
 echo "Deleting remote branch"
