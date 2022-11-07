@@ -39,8 +39,12 @@ if (!dns) {
   process.exit(2)
 }
 
+const filename = await question("filename: ")
+
+console.log('filename', filename)
+
 try {
-   const result = await $`scp -i ~/developer.pem 'ubuntu@${dns}.sa-east-1.compute.amazonaws.com:/home/ubuntu/repositories/sammathnaur/packages/server/data/locations.csv' ~/Downloads`
+   const result = await $`scp -i ~/developer.pem 'ubuntu@${dns}.sa-east-1.compute.amazonaws.com:/home/ubuntu/repositories/sammathnaur/packages/server/data/${filename}' ~/Downloads`
    console.log('result', result)
   fs.writeFileSync(dnsCachePath, JSON.stringify({
     date: today,

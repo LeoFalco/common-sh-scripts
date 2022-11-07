@@ -7,3 +7,5 @@ git branch -D $current_branch
 git fetch
 
 git checkout $current_branch
+
+git remote prune origin
